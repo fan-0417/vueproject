@@ -84,7 +84,23 @@
 
         <!-- 新人专享 -->
         <div class="peopleEnjoy">
-          
+          <p class="title">新人专享礼包</p>
+          <div class="bottom">
+            <div class="left">
+              <p>新人专享礼</p>
+              <img src="@/static/imgs/15元.png" alt="">
+            </div>
+            <div class="right">
+              <div class="Welfare">
+                <h3>福利社</h3>
+                <span>今日特价</span>
+                <img src="" alt="">
+              </div>
+              <div class="bottom">
+
+              </div>
+            </div>
+          </div>
         </div>
 
 
@@ -135,7 +151,7 @@
       this.$nextTick(()=>{
         let navContainer = this.$refs.navContainer
         let huapingContainer = this.$refs.huapingContainer
-        new BScroll(navContainer,{scrollX:true,click:true})
+        new BScroll(navContainer,{scrollY:false,scrollX:true,click:true})
         new BScroll(huapingContainer,{click:true})
       })
 
@@ -172,7 +188,7 @@
     width 100%
     // height 1238px
     // overflow hidden
-    padding-top 148px
+    padding-top 150px
     .top
       position fixed
       left 0
@@ -206,27 +222,33 @@
         border: 2px solid red
         border-radius 10px
         white-space nowrap
-    .nav
-      // width 100%
+    .navContainer
+      width 100%
+      height 60px
       position fixed
       left 0
-      top 88px
-      height 60px
-      padding-left 30px
-      display inline-block
-      // display flex
-      // align-items center
-      white-space nowrap
-      .navitem
-        display inline-block
+      top 80px
+      .nav
+        // width 100%
+        // position fixed
+        // left 0
+        // top 80px
         height 60px
-        line-height 60px
-        margin 0 20px
-        &.active
-          border-bottom 4px solid #f00
-        span 
-          font-size 28px
-          padding 0 10px
+        padding-left 30px
+        display inline-block
+        // display flex
+        // align-items center
+        white-space nowrap
+        .navitem
+          display inline-block
+          height 60px
+          line-height 60px
+          margin 0 20px
+          &.active
+            border-bottom 4px solid #f00
+          span 
+            font-size 28px
+            padding 0 10px
     .swiper-container
       margin-top 4px
       width 100%
@@ -270,6 +292,56 @@
       img
         width 100%
         height 100%
-
+    .peopleEnjoy
+      width 100%
+      height 527px 
+      background pink
+      padding 0 30px
+      box-sizing border-box
+      .title
+        position relative
+        width 100%
+        height 90px
+        text-align center
+        line-height 90px
+        font-size 32px
+        &:after
+          content ''
+          position absolute
+          width 24px
+          height 3px
+          background #000
+          left 30%
+          top 50%
+        &:before
+          content ''
+          position absolute
+          width 24px
+          height 3px
+          background #000
+          right 30%
+          top 50%
+      .bottom
+        width 100%
+        display flex
+        .left
+          width 49%
+          height 434px
+          background #F9E9CF
+          margin-right 1px
+          p
+            padding 30px 0 0 30px
+            font-size 32px
+          img
+            width 285px
+            height 257px
+            margin: 42px 37px
+        .right
+          width 49%
+          height 434px
+          padding 20px 0 0 30px
+          box-sizing  border-box
+          float right
+          background yellow
 
 </style>
