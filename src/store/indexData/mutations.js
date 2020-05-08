@@ -6,5 +6,7 @@ export default {
   },
   [POLICYDESCLIST](state,data){
     state.homeData = data
-  }
+    state.hotClass = data.categoryHotSellModule.categoryList.splice(2,10)
+  },
+  
 }

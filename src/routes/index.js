@@ -11,5 +11,5 @@ export default [
   {path:"/Worth",component:Worth,meta:{showList:true}},
   {path:"/Cart",component:Cart,meta:{showList:true}},
   {path:"/Personal",component:Personal,meta:{showList:false}},
-  {path:"/", redirect:"/Home"}
+  {path:"/", redirect:"/Worth"}
 ]

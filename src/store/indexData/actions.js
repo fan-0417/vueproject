@@ -17,5 +17,7 @@ export default {
     if(status === 200){
       commit(POLICYDESCLIST,data)
     }
-  }
+  },
+
+ 
 }

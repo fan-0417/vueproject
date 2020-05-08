@@ -1,0 +1,1 @@
+export const LEFTNAVLIST = 'leftNavList'   //左侧导航数据

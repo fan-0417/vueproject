@@ -14,13 +14,13 @@
         <div @click="changeIdx(0)" class="navitem" :class="0 === idx ? 'active' : ''">
           <span>推荐</span>
         </div>
-        <div @click="changeIdx(index+1)" class="navitem" v-for="(item,index) in list" :key="index" :class="index+1 === idx ? 'active' : ''">
+        <div @click="changeIdx(index+1,item.id)" class="navitem" v-for="(item,index) in list" :key="index" :class="index+1 === idx ? 'active' : ''">
           <span>{{item.name}}</span>
         </div>
       </div>
     </div>
 
-    <div class="huapingContainer" ref="huapingContainer" style="height:545px; overflow: hidden;">
+    <div class="huapingContainer" ref="huapingContainer">
       <div>
         <!-- 轮播区域 -->
         <div class="swiper-container">
@@ -54,60 +54,92 @@
           <div class="swiper-pagination count"></div>
         </div>
 
-        <!-- s三个图标区域 -->
-        <div class="policyDescList">
-          <div class="policyDescItem"  v-for="(item,index) in homeData.policyDescList" :key="index">
-            <img :src="item.icon" alt="">
-            <span>{{item.desc}}</span>
-          </div>
-        </div>
-
-        <!-- kingKongList -->
-        <div class="kingKongList" v-if="homeData.kingKongModule">
-          <div class="kingkongItem" 
-            v-for="(item,index) in homeData.kingKongModule.kingKongList"
-            :key="index"
-            >
-            <img :src="item.picUrl">
-            <span>{{item.text}}</span>
-          </div>
-          
-        </div>
-
-        <!-- 抗议图片 -->
-        <div class="kangyi">
-          <img src="../../static/imgs/kangyi.gif" alt="">
-        </div>
-
-        <!-- 线 -->
-        <v-line></v-line>
-
-        <!-- 新人专享 -->
-        <div class="peopleEnjoy">
-          <p class="title">新人专享礼包</p>
-          <div class="bottom">
-            <div class="left">
-              <p>新人专享礼</p>
-              <img src="@/static/imgs/15元.png" alt="">
-            </div>
-            <div class="right">
-              <div class="Welfare">
-                <h3>福利社</h3>
-                <span>今日特价</span>
-                <img src="" alt="">
-              </div>
-              <div class="bottom">
-
-              </div>
+        <div v-if="0 === idx">
+          <!-- s三个图标区域 -->
+          <div class="policyDescList">
+            <div class="policyDescItem"  v-for="(item,index) in homeData.policyDescList" :key="index">
+              <img :src="item.icon" alt="">
+              <span>{{item.desc}}</span>
             </div>
           </div>
+
+          <!-- kingKongList -->
+          <div class="kingKongList" v-if="homeData.kingKongModule">
+            <div class="kingkongItem" 
+              v-for="(item,index) in homeData.kingKongModule.kingKongList"
+              :key="index"
+              >
+              <img :src="item.picUrl">
+              <span>{{item.text}}</span>
+            </div>
+            
+          </div>
+
+          <!-- 抗议图片 -->
+          <div class="kangyi">
+            <img src="../../static/imgs/kangyi.gif" alt="">
+          </div>
+
+          <!-- 线 -->
+          <v-line></v-line>
+
+          <!-- 新人专享 -->
+          <div class="peopleEnjoy">
+            <p class="title">新人专享礼包</p>
+            <div class="bottom">
+              <div class="left">
+                <p>新人专享礼</p>
+                <img src="@/static/imgs/15元.png" alt="">
+              </div>
+              <div class="right">
+                <div class="Welfare">
+                  <h3>福利社</h3>
+                  <span>今日特价</span>
+                  <img src="@/static/imgs/2.webp" alt="">
+                </div>
+                <div class="Welfare1">
+                  <h3>福利社</h3>
+                  <span>今日特价</span>
+                  <img src="@/static/imgs/3.webp" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 线 -->
+          <v-line></v-line>
+
+          <!-- 热销榜 -->
+          <div class="hotList">
+            <div class="title">
+              类目热销榜
+            </div>
+            <div class="hotClass" >
+              <div class="leftHot">
+                <span>热销榜</span>
+                <img src="@/static/imgs/4.webp" alt="">
+              </div>
+              <div class="rightHot">
+                <span>好评榜</span>
+                <img src="@/static/imgs/5.webp" alt="">
+              </div>
+              <div class="hotItemList">
+                <div class="hotItem" v-for="(item,index) in hotClass" :key="index">
+                  <span>{{item.categoryName}}</span>
+                  <img :src="item.picUrl" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
 
-
-        
-
-
+        <div v-if="idx !==0">
+            <!-- 线 -->
+            <v-line></v-line>
+            <!-- 模块数据 -->
+            <v-CateModule :id="id"></v-CateModule>
+        </div>
       </div>
     </div>
 
@@ -123,17 +155,22 @@
   import {GETINDEXCATELIST,POLICYDESCLIST} from '@/store/indexData/mutaitions_types.js'
   import 'swiper/css/swiper.min.css'
   import V_Line from '@/components/line/line.vue'
+  import V_CateModule from '@/components/cateModule/cateModule.vue'
   export default {
     name: 'Home',
     components:{
        [Button.name]:Button,
-       'v-line': V_Line
+       'v-line': V_Line,
+        'v-CateModule':V_CateModule,
     },
     data(){
       return{
         idx : 0,   //nav区域下边框显示标识
+        hotClassList: [],
+        id: 0
       }
     },
+    
     computed:{
       // nav区域数据
       ...mapState({
@@ -142,7 +179,12 @@
       // nav区域数据
       ...mapState({
         homeData: state => state.indexData.homeData
-      })
+      }),
+      // 热搜区域数据
+      ...mapState({
+        hotClass: state => state.indexData.hotClass
+      }),
+      
     },
     async mounted(){
       this[GETINDEXCATELIST]()
@@ -156,7 +198,6 @@
       })
 
       this.swiper()
-
       
     },
     methods:{
@@ -164,9 +205,11 @@
       ...mapActions([GETINDEXCATELIST]),
       // 主页数据
       ...mapActions([POLICYDESCLIST]),
-      changeIdx(idx){
-        // console.log(idx)
+      
+      
+      changeIdx(idx,id){
         this.idx = idx
+        this.id = id
       },
       swiper(){
         this.$nextTick(()=>{
@@ -249,6 +292,10 @@
           span 
             font-size 28px
             padding 0 10px
+    .huapingContainer
+      width 100%
+      height 1090px
+      overflow hidden
     .swiper-container
       margin-top 4px
       width 100%
@@ -295,7 +342,6 @@
     .peopleEnjoy
       width 100%
       height 527px 
-      background pink
       padding 0 30px
       box-sizing border-box
       .title
@@ -339,9 +385,104 @@
         .right
           width 49%
           height 434px
-          padding 20px 0 0 30px
           box-sizing  border-box
           float right
+          .Welfare
+            position relative
+            width 100%
+            height 49%
+            background #FBE2D3
+            margin-bottom 2px
+            overflow hidden
+            h3
+              margin  20px 0 0 30px
+              font-size 32px
+              margin-bottom 10px
+            span
+              margin-left 30px
+            img 
+              position absolute
+              right 0px
+              bottom 0px
+              width 200px
+              height 200px
+          .Welfare1
+            position relative
+            width 100%
+            height 50%
+            background #FFECC2
+            overflow hidden
+            h3
+              margin  20px 0 0 30px
+              font-size 32px
+              margin-bottom 10px
+            span
+              margin-left 30px
+            img 
+              position absolute
+              right 0px
+              bottom 0px
+              width 200px
+              height 200px
+    .hotList
+      width 100%
+      height 720px
+      box-sizing border-box
+      padding 0 30px 0 30px
+      .title
+        width 100%
+        height 100px
+        font-size 32px
+        line-height 100px
+      .hotClass
+        width 100%
+        height 200px
+        display flex
+        flex-wrap wrap
+        .leftHot
+        .rightHot
+          position relative
+          width 339px
+          height 100%
+          margin-right 10px
           background yellow
-
+          span  
+            font-size 28px
+            margin-left 24px
+            line-height 200px
+          img
+            position absolute
+            right 0
+            bottom 0
+            width 200px
+            height 200px
+        .leftHot
+          background #F9F3E4
+        .rightHot
+          background #EBEFF6
+          margin-right 0px
+        .hotItemList
+          width 100%
+          margin-top 10px
+          display flex
+          flex-wrap wrap
+          .hotItem
+            width 165px
+            height 180px
+            display flex
+            flex-direction column
+            align-items center
+            margin-right 10px
+            margin-bottom 10px
+            background #F5F5F5
+            &:nth-of-type(4)
+              margin-right 0px
+            &:last-child
+              margin-right 0px
+            span
+              font-size 24px
+              margin-top 20px
+            img
+              width 120px
+              height 120px
 </style>
