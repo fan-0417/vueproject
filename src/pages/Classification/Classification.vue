@@ -10,9 +10,9 @@
       </form>
     </div>
     <div class="bottom">
-      <div class="left">
-        <ul>
-          <li @click="changeId(item.id)" :class=" item.id === id ? 'active': ''" v-for="(item,index) in leftList" :key="index">
+      <div class="left" ref="leftWrap">
+        <ul ref="ulWrap">
+          <li @click="changeId(item.id,index)" :class=" item.id === id ? 'active': ''" v-for="(item,index) in leftList" :key="index">
             {{item.name}}
           </li>
         </ul>
@@ -38,7 +38,6 @@
 
 <script>
   import { Search } from 'vant';
-  import http from '@/utils/http'
   import BScroll from 'better-scroll'
   import {LEFTNAVLIST} from '@/store/classIfication/mutaitions_types.js'
   import {mapState,mapActions} from 'vuex'
@@ -58,8 +57,11 @@
       // 左侧导航数据
       ...mapActions([LEFTNAVLIST]),
       // 修改id
-      changeId(id){
+      changeId(id,index){
         this.id = id
+        // console.log(index);
+        // let listItem = this.$refs.ulWrap && this.$refs.ulWrap.children[index] 
+        // this.leftWrap1 && this.leftWrap1.scrollToElement(listItem,300)
       }
     },
     computed:{
@@ -75,13 +77,12 @@
     async mounted(){
       this[LEFTNAVLIST]()
       // 请求右侧数据
-      let {status,data} = await http('/getCateLists')
-      if(status === 200){
-        this.rightList = data
-      }      
+      let body = await this.$http.classIfication.getCateLists()
+      this.rightList = body
+      
       this.$nextTick(()=>{
-        let Wrap = this.$refs.rightWrap
-        new BScroll(Wrap)
+        new BScroll(this.$refs.rightWrap)
+        // this.leftWrap1 = new BScroll(this.$refs.leftWrap)
       })
     }
   }
@@ -114,7 +115,7 @@
         text-align center
         position relative
         li
-          margin-bottom 60px
+          margin-bottom 50px
           font-size 28px
           &.active
             position relative

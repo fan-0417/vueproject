@@ -10,7 +10,7 @@
     </div>
     <!-- nav区域 -->
     <div class="navContainer" ref="navContainer">
-      <div class="nav">
+      <div class="nav" ref="nav1">
         <div @click="changeIdx(0)" class="navitem" :class="0 === idx ? 'active' : ''">
           <span>推荐</span>
         </div>
@@ -149,7 +149,6 @@
 <script>
   import {mapState,mapActions} from 'vuex'
   import {Button} from 'vant';
-  import http from '@/utils/http'
   import BScroll from 'better-scroll'
   import Swiper from 'swiper'
   import {GETINDEXCATELIST,POLICYDESCLIST} from '@/store/indexData/mutaitions_types.js'
@@ -191,10 +190,8 @@
       this[POLICYDESCLIST]()
       
       this.$nextTick(()=>{
-        let navContainer = this.$refs.navContainer
-        let huapingContainer = this.$refs.huapingContainer
-        new BScroll(navContainer,{scrollY:false,scrollX:true,click:true})
-        new BScroll(huapingContainer,{click:true})
+        this.navList = new BScroll(this.$refs.navContainer,{scrollY:false,scrollX:true,click:true})
+        new BScroll(this.$refs.huapingContainer,{click:true,bounce: {top: false,bottom: false,left: false,right: false}})
       })
 
       this.swiper()
@@ -210,6 +207,9 @@
       changeIdx(idx,id){
         this.idx = idx
         this.id = id
+        // 让nav区域自动往前顶
+        let listItem = this.$refs.nav1 && this.$refs.nav1.children[this.idx]
+        this.navList && this.navList.scrollToElement(listItem,300,-15)
       },
       swiper(){
         this.$nextTick(()=>{

@@ -1,3 +1,4 @@
+
 export default{
-  BASEURL : '/api'
+  BASEURL : '/api',
 } 

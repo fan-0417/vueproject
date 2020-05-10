@@ -1,0 +1,1 @@
+export const NAVLIST = 'NAVLIST'   //swipei 区域数据

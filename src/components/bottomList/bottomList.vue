@@ -26,6 +26,7 @@
 </template>
 
 <script>
+  import PubSub from 'pubsub-js'
   export default {
     name: 'BottomList',
     data(){
@@ -33,10 +34,17 @@
         idx: 1
       }
     },
+    mounted(){
+      PubSub.subscribe('idx',(smg,id)=>{
+        // console.log(id);
+        this.idx = id
+      })
+    },
     computed:{
      
     },
     methods:{
+      
       toHome(){
         this.$router.replace('/Home')
         this.idx = 1

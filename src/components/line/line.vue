@@ -11,8 +11,9 @@
 </script>
 
 <style scoped lang="stylus">
+  @import '../../common/stylus/mixin.styl'
   .line
     width 100%
-    height 20px
+    hei(20px)
     background #eee
 </style>

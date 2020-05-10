@@ -3,6 +3,7 @@ const Classification = () => import(/* webpackChunkName: "group-foo" */ '@/pages
 const Worth = () => import(/* webpackChunkName: "group-foo" */ '@/pages/Worth/Worth.vue')
 const Cart = () => import(/* webpackChunkName: "group-foo" */ '@/pages/Cart/Cart.vue')
 const Personal = () => import(/* webpackChunkName: "group-foo" */ '@/pages/Personal/Personal.vue')
+const Search = () => import(/* webpackChunkName: "group-foo" */ '@/pages/Search/Search.vue')
 
 
 export default [
@@ -11,5 +12,6 @@ export default [
   {path:"/Worth",component:Worth,meta:{showList:true}},
   {path:"/Cart",component:Cart,meta:{showList:true}},
   {path:"/Personal",component:Personal,meta:{showList:false}},
-  {path:"/", redirect:"/Worth"}
+  {path:"/Search",component:Search,meta:{showList:false}},
+  {path:"/", redirect:"/Search"}
 ]
