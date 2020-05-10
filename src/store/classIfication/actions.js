@@ -1,12 +1,9 @@
-import http from '@/utils/http'
 import {LEFTNAVLIST} from '@/store/classIfication/mutaitions_types.js'
-
+import http from '@/http'
 export default {
   async [LEFTNAVLIST]({commit}){
-    let {status,data} = await http('/getCateNavList')
-    // console.log(body);
-    if(status === 200){
+    let data = await http.classIfication.getCateNavList()
+    // console.log(data);
       commit(LEFTNAVLIST,data)
-    }
   }
 }

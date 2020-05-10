@@ -15,6 +15,8 @@ import store from '@/store'
 import http from '@/http'
 Vue.prototype.$http = http
 
+// 自定义总线
+Vue.prototype.$bus= new Vue()
 // swiper
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 Vue.use(VueAwesomeSwiper)

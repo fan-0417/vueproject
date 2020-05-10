@@ -39,7 +39,9 @@
         // console.log(id);
         this.idx = id
       })
+      
     },
+     
     computed:{
      
     },

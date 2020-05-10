@@ -12,6 +12,13 @@ export default [
   {path:"/Worth",component:Worth,meta:{showList:true}},
   {path:"/Cart",component:Cart,meta:{showList:true}},
   {path:"/Personal",component:Personal,meta:{showList:false}},
-  {path:"/Search",component:Search,meta:{showList:false}},
-  {path:"/", redirect:"/Search"}
+  {
+    path:"/Search",
+    component:Search,
+    meta:{showList:false},
+    // children:{
+    //   path:'/'
+    // }
+  },
+  {path:"/", redirect:"/Personal"}
 ]

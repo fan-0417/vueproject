@@ -1,25 +1,20 @@
 export default {
   name:"",
-  // baseUrl:"https://m.you.163.com",
+  // baseUrl:"http://localhost:4000",
   api:{
-    getList:{
-        url:"/topic/v1/find/recAuto.json", 
+    getHotList:{
+        url:"/xhr/search/init.json", // 搜索列表数据
         method:"get",
         corsUrl:"/163"
       },
-      zhidemailist:{
-        url:"/zhidemailist", 
-        method:"get",
-        corsUrl:"/api"
-      },
-      
-      getWaterfallFirst:{
-        url:"/getWaterfallFirst", 
-        method:"get",
-        corsUrl:"/api"
-      },
-      
 
+    searchKword:{
+        url:"/xhr/search/searchAutoComplete.json", // 搜索列表数据
+        method:"post",
+        corsUrl:"/163",
+        isForm:true
+      },
+      
 
     //   autoLogin:{
     //       url:"/auto_login",
