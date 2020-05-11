@@ -58,7 +58,6 @@
         keyWord: '',
         keyList: [],
         searchHistoryList: [],
-        oldKeyWord: ''
       }
     },
     components:{
@@ -73,6 +72,7 @@
       if(code === '200'){
         this.hotList = data
       }
+      this.searchHistoryList = local.get('searchList',[])
     },
     methods:{
       goBack(){
@@ -93,26 +93,25 @@
         },500)
       },
       onSearch(){
-
-        
-        if(!this.searchHistoryList.length){
-          this.searchHistoryList.unshift(this.keyWord)
-        }else{
-          // console.log(dada);
-          
+        let searchHistoryList = this.searchHistoryList
+        searchHistoryList.unshift(this.keyWord)
+        let n = [];//一个新的临时数组
+        //遍历当前数组
+        for(let i=0; i<searchHistoryList.length; i++){
+          //如果当前数组的第i已经保存进了临时数组，那么跳过，
+          //否则把当前项push到临时数组里面
+          if(n.indexOf(searchHistoryList[i]) == -1){
+            n.push(searchHistoryList[i]);
+          }
         }
-
-
-        // this.searchHistoryList.unshift(this.keyWord)
-        //   let body = this.searchHistoryList.filter((item)=>{
-        //     return item !== this.keyWord
-        //   })
-        // local.set('history',this.keyWord)
-          
-          
+        this.searchHistoryList = n
+        local.set('searchList',n)
       },
+
+
       deleteList(){
         this.searchHistoryList = []
+        local.remove('searchList')
       }
     }
   }

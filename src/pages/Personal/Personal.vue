@@ -54,7 +54,7 @@
             name="手机号"
             clearable 
             placeholder="请输入手机号"
-            :rules="[{ validator, message: '手机号格式不正确' }]"
+            :rules="[{ validator:phoneValidator, message: '手机号格式不正确' }]"
           />
           <van-field
             v-if="loginMethod"
@@ -64,7 +64,7 @@
             name="验证码"
             clearable
             placeholder="请输入短信验证码"
-            :rules="[{ required: true, message: '短信验证码错误' }]"
+            :rules="[{ validator:captchaValidator , message: '短信验证码错误' }]"
           >
           
             <template #button v-if="loginMethod">
@@ -79,7 +79,7 @@
             name="密码"
             clearable
             placeholder="请输入密码"
-            :rules="[{ required: true, message: '密码错误' }]"
+            :rules="[{ validator: captchaPwd, message: '密码最少为6位' }]"
           />
           <div class="Problem">
             <span class="item1">{{loginMethod ? '遇到问题?' : '忘记密码'}} </span>
@@ -133,13 +133,20 @@
         
       },
        // 校验函数返回 true 表示校验通过，false 表示不通过
-      validator(val) {
-
-      console.log(this.$refs.vantForm.validate('手机号','密码'));
-        // console.log(body);
-        
-        
+      //  手机号校验
+      phoneValidator(val) {
         return /1\d{10}/.test(val);
+      },
+      // 验证码校验
+      captchaValidator(val) {
+        //  如果有数据库   从数据库拿到数据好 判断val与数据库数据是否匹配  匹配返回trur  否则false
+        return true
+      },
+      // 密码校验
+      captchaPwd(val) {
+        console.log(val);
+        
+        return  /^.{6,}$/.test(val)
       },
       goHome(){
         this.$router.push('/Home')
@@ -154,7 +161,7 @@
       },
 
       onSubmit(values) {
-        if(!this.checked){
+        if(!this.checked && this.loginMethod){
           Dialog.alert({
             // title: '---',
             message: '请勾选相应条款',
