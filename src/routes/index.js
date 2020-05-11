@@ -20,5 +20,5 @@ export default [
     //   path:'/'
     // }
   },
-  {path:"/", redirect:"/Personal"}
+  {path:"/", redirect:"/Home"}
 ]

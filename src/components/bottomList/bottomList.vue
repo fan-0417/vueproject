@@ -35,11 +35,19 @@
       }
     },
     mounted(){
-      PubSub.subscribe('idx',(smg,id)=>{
+      PubSub.subscribe('searchId',(smg,id)=>{
         // console.log(id);
         this.idx = id
       })
-      
+      PubSub.subscribe('cartId',(smg,id)=>{
+        // console.log(id);
+        this.idx = id
+      })
+      // this.$bus.$on('idx',(msg,idx)=>{
+      //   console.log('$on');
+        
+      //   this.idx = id
+      // })
     },
      
     computed:{

@@ -5,7 +5,7 @@
         <i class="iconfont icon-shouye"></i>
       </div>
       <span>值得买</span>
-      <div class="search" @click="$router.replace('/Search')">
+      <div class="search" @click="goSearch">
         <i class="iconfont icon-search"></i>
       </div>
       <div class="cart">
@@ -116,26 +116,16 @@
       this.getWaterfallFirst()
       
     },
-    beforeRouteUpdate (to, from, next) {
-       console.log(123);
-       
-      // 在当前路由改变，但是该组件被复用时调用
-      // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
-      // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
-      // 可以访问组件实例 `this`
-      this.$bus.$on('changeId',(id)=>{
-        console.log(id);
-        
-        this.idx = id
-      })
-      next()
-    },
+    
     methods:{
       
       // 跳转至主页
       goHome(){
-        this.$router.replace('/Home')
+        this.$router.push('/Home')
         PubSub.publish('idx',1)
+      },
+      goSearch(){
+        this.$router.push('/Search')
       },
       huaping(){
         this.scroll = new BScroll(

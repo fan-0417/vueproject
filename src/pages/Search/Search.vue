@@ -9,10 +9,11 @@
         @input="searchKword"
         @search="onSearch"
       />
-      <span class="cancel" @click="goMorth">取消</span>
+      <span class="cancel" @click="goBack">取消</span>
 
       <div class="hotSerch" v-if="!keyWord && searchHistoryList.length">
         <p>历史记录</p>
+        <i @click="deleteList" class=" delete1 iconfont icon-del"></i>
         <ul class="hotList">
           <li v-for="(item,index) in searchHistoryList" :key="index">
             {{item}}
@@ -56,7 +57,8 @@
         hotList: {}, //热门搜索列表
         keyWord: '',
         keyList: [],
-        searchHistoryList: []
+        searchHistoryList: [],
+        oldKeyWord: ''
       }
     },
     components:{
@@ -64,6 +66,8 @@
       'v-line': Line
     },
     async mounted(){
+      
+      
       let {code,data} = await this.$http.search.getHotList()
       // console.log(data)
       if(code === '200'){
@@ -71,10 +75,10 @@
       }
     },
     methods:{
-      goMorth(){
-        this.$router.replace('/Worth')
-        // this.$bus.$emit('changeId',2)
-        PubSub.publish('idx',3)
+      goBack(){
+        this.$router.back()
+        // this.$bus.$emit('idx',3)
+        PubSub.publish('searchId',3)
 
       },
       searchKword(){
@@ -89,14 +93,26 @@
         },500)
       },
       onSearch(){
-          // local.set('history',this.keyWord)
+
+        
+        if(!this.searchHistoryList.length){
           this.searchHistoryList.unshift(this.keyWord)
-          let body = this.searchHistoryList.filter((item)=>{
-            return item !== this.keyWord
-          })
-          // console.log(body);
+        }else{
+          // console.log(dada);
+          
+        }
+
+
+        // this.searchHistoryList.unshift(this.keyWord)
+        //   let body = this.searchHistoryList.filter((item)=>{
+        //     return item !== this.keyWord
+        //   })
+        // local.set('history',this.keyWord)
           
           
+      },
+      deleteList(){
+        this.searchHistoryList = []
       }
     }
   }
@@ -127,6 +143,11 @@
         right 30px
         font-size 28px
       .hotSerch
+        position relative
+        .delete1
+          position absolute
+          top 0
+          right 0
         p
           margin-top 50px
           margin-bottom 30px
