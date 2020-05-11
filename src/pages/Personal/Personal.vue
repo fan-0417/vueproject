@@ -54,7 +54,7 @@
             name="手机号"
             clearable 
             placeholder="请输入手机号"
-            :rules="[{ validator:phoneValidator, message: '手机号格式不正确' }]"
+            :rules="[{ validator:phoneValidator, message: '手机号格式不正确', trigger:'onChange'}]"
           />
           <van-field
             v-if="loginMethod"
@@ -64,7 +64,7 @@
             name="验证码"
             clearable
             placeholder="请输入短信验证码"
-            :rules="[{ validator:captchaValidator , message: '短信验证码错误' }]"
+            :rules="[{ validator:captchaValidator , message: '短信验证码错误' ,trigger:'onChange'}]"
           >
           
             <template #button v-if="loginMethod">
@@ -79,7 +79,7 @@
             name="密码"
             clearable
             placeholder="请输入密码"
-            :rules="[{ validator: captchaPwd, message: '密码最少为6位' }]"
+            :rules="[{ validator: captchaPwd, message: '密码最少为6位' ,trigger:'onChange'}]"
           />
           <div class="Problem">
             <span class="item1">{{loginMethod ? '遇到问题?' : '忘记密码'}} </span>
