@@ -47,16 +47,17 @@
         <div class="phoneNumber">
           <img src="@/static/imgs/logo1.jpg" alt="">
         </div>
-        <van-form class="vantLogin" @submit="onSubmit">
+        <van-form class="vantLogin" @submit="onSubmit" ref="vantForm" @validate="validat">
           <van-field
             class="user"
             v-model="phone"
             name="手机号"
-            clearable
+            clearable 
             placeholder="请输入手机号"
             :rules="[{ validator, message: '手机号格式不正确' }]"
           />
           <van-field
+            v-if="loginMethod"
             class="info"
             v-model="password"
             type="password"
@@ -65,19 +66,30 @@
             placeholder="请输入短信验证码"
             :rules="[{ required: true, message: '短信验证码错误' }]"
           >
-            <template #button>
+          
+            <template #button v-if="loginMethod">
               <van-button @click="verificationCode" native-type="button" plain  hairline type="default">获取验证码</van-button>
             </template>
           </van-field>
+          <van-field
+            v-else
+            class="info"
+            v-model="password1"
+            type="password1"
+            name="密码"
+            clearable
+            placeholder="请输入密码"
+            :rules="[{ required: true, message: '密码错误' }]"
+          />
           <div class="Problem">
-            <span class="item1">遇到问题?</span>
-            <span>使用密码验证登录</span>
+            <span class="item1">{{loginMethod ? '遇到问题?' : '忘记密码'}} </span>
+            <span @click="changeLoginMethod">{{loginMethod ? '使用密码登录' : '使用短信验证码登录'}}</span>
           </div>
           <div style="margin-top: 16px;">
             <van-button style="width:100%;height:40px" size="large" type="danger">
               登录
             </van-button>
-            <div class="Terms">
+            <div class="Terms" v-if="loginMethod">
               <van-checkbox v-model="checked" shape="square" checked-color="#eee" icon-size="20px">我同意<a style="color:#6332F6">服务条款</a>与<a style="color:#6332F6">网络隐私政策</a></van-checkbox>
             </div>
             <p class="other">其他方式登录＞</p>
@@ -91,7 +103,7 @@
 
 <script>
   import PubSub from 'pubsub-js'
-  import {Form,Field,Button,Checkbox} from 'vant';
+  import {Form,Field,Button,Checkbox,Dialog } from 'vant';
   export default {
     name: 'Personal',
     components:{
@@ -99,22 +111,34 @@
       [Field.name]:Field,
       [Button.name]:Button,
       [Checkbox.name]:Checkbox,
+      [Dialog .name]:Dialog ,
     },
     data(){
       return{
         flag: true,
         phone: '',
-        password: '',
-        checked: false
+        password: '',  // 短信登录输入内容
+        password1: '',  //密码登录输入内容
+        checked: false, // 服务条款选择框
+        loginMethod: true  //默认为短信验证码登录
       }
     },
     methods:{
+      validat(){
+        console.log('validat');
+        
+      },
       verificationCode(){
         console.log(123);
         
       },
        // 校验函数返回 true 表示校验通过，false 表示不通过
       validator(val) {
+
+      console.log(this.$refs.vantForm.validate('手机号','密码'));
+        // console.log(body);
+        
+        
         return /1\d{10}/.test(val);
       },
       goHome(){
@@ -130,10 +154,21 @@
       },
 
       onSubmit(values) {
+        if(!this.checked){
+          Dialog.alert({
+            // title: '---',
+            message: '请勾选相应条款',
+            width: '80%',
+          })
+          return
+        }
         console.log('submit', values);
       },
       changeFlag(){
         this.flag = false
+      },
+      changeLoginMethod(){ //修改登录方式
+        this.loginMethod = !this.loginMethod
       }
     }
   }
